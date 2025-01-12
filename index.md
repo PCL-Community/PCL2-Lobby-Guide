@@ -7,12 +7,12 @@ hero:
   text: "PCL2 社区版联机服务端实现规范"
   tagline: My great project tagline
   actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+    - theme: 
+      text: 让我们开始吧！
+      link: /before/getstart
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 特别鸣谢
+      link: /thank/list
 
 features:
   - title: Feature A

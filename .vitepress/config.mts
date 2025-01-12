@@ -13,10 +13,15 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '开始之前',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: '一些你需要知道的基本事项', link: '/before/getstart' }
+        ]
+      },
+      {
+        text: '登录',
+        items: [
+          { text: '1.1 登录与刷新', link: '/start/login' }
         ]
       }
     ],
