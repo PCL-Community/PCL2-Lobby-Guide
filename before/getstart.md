@@ -17,7 +17,7 @@
 ```jsonc
 {
   "status": 400, // HTTP 状态码
-  "error": "人类可读文本"
+  "message": "人类可读文本"
 }
 ```
 
