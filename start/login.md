@@ -6,11 +6,13 @@
 
 :::
 
+## 登录
+
 登录接口地址为:
 
 ```http
 
-POST /api/login
+POST /api/auth/login
 
 ```
 
@@ -28,26 +30,37 @@ POST /api/login
 
 我们需要对客户端的识别码进行格式检查，确定是否有四段且总长度应该等于 19。
 
-如果检查通过，服务端应返回如下响应。
+如果检查通过，服务端应返回 201 响应，响应格式如下。
 
 ```json
 
 {
     "status":201,
     "access_token":"<访问令牌>",
-    "refresh_token":"<刷新令牌>",
     "expire_in":172800
 }
 
 ```
 
-如果没有通过检查，服务端应返回 403 响应，格式如下。
+如果没有通过检查，服务端应返回 400 响应，格式如下。
+
+```json
+
+{
+    "status":400,
+    "error":"Invalid Identifier"
+}
+
+```
+
+如果客户端已被封禁，服务端应返回 403 响应，格式如下。
 
 ```json
 
 {
     "status":403,
-    "error":"Invalid Identifier"
+    "error":"Identifier Blocked"
 }
 
 ```
+
