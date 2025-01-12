@@ -1,3 +1,12 @@
 node_modules
-
+.DS_Store
 dist
+dist-ssr
+cache
+.cache
+.temp
+*.local
+.vitepress/cache/
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
