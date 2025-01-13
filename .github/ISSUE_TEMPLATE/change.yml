@@ -9,7 +9,7 @@ body:
       description: "请逐个检查下列项目，并勾选确认。"
       options:
         - label: "我已在 [Issues](https://github.com/PCL-Community/PCL2-Lobby-Guide/issues) 页面检索确认没有重复 Issue"
-          required: false
+          required: true
   - type: textarea
     id: "yml-2"
     attributes:
