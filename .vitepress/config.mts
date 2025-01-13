@@ -16,21 +16,21 @@ export default defineConfig({
       {
         text: '开始之前',
         items: [
-          { text: '一些你需要知道的基本事项', link: './before/getstart' }
+          { text: '一些你需要知道的基本事项', link: '/before/getstart' }
         ]
       },
       {
         text: 'API 接口',
         items: [
-          { text: '1.1 登录接口文档', link: './start/login' },
-          { text: '1.2 联机大厅接口文档', link: './start/lobby' },
-          { text: '1.3 管理接口文档', link: './start/admin' }
+          { text: '1.1 登录接口文档', link: '/start/login' },
+          { text: '1.2 联机大厅接口文档', link: '/start/lobby' },
+          { text: '1.3 管理接口文档', link: '/start/admin' }
         ]
       },
       {
         text: '拓展功能文档',
         items: [
-          { text: '1.1 端口复用技术文档', link: './feature/reuse-port' }
+          { text: '1.1 端口复用技术文档', link: '/feature/reuse-port' }
         ]
       }
     ],
