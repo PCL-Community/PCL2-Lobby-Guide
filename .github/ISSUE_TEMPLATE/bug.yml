@@ -1,5 +1,5 @@
 name: "文档内容反馈"
-description: ""
+description: "反馈文档中存在的问题"
 labels: [documentation, 待评估]
 body:
   - type: checkboxes
