@@ -2,6 +2,14 @@ name: "文档内容反馈"
 description: ""
 labels: [documentation,待评估]
 body:
+  - type: checkboxes
+  id: "yml-1"
+  attributes:
+    label: "检查项"
+    description: "请逐个检查下列项目，并勾选确认。"
+    options:
+    - label: "我已在 [Issues](https://github.com/PCL-Community/PCL2-Lobby-Guide/issues) 页面检索确认没有重复 Issue"
+      required: false
 - type: textarea
   id: "yml-2"
   attributes:
