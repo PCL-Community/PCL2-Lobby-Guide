@@ -1,0 +1,25 @@
+name: "文档内容反馈"
+description: ""
+labels: [documentation,待评估]
+body:
+- type: textarea
+  id: "yml-2"
+  attributes:
+    label: 描述
+    description: "提出文档存在的缺陷"
+  validations:
+    required: true
+- type: textarea
+  id: "yml-3"
+  attributes:
+    label: 可能的解决方案
+    description: "怎么做才能完善文档"
+  validations:
+    required: false
+- type: textarea
+  id: "yml-4"
+  attributes:
+    label: 附件
+    placeholder: "先点击这个文本框，然后再将文件直接拖拽到文本框中以上传。"
+  validations:
+    required: false
