@@ -1,0 +1,33 @@
+name: "Build Page"
+on:
+  workflow_dispatch:
+  #push:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+
+      - name: "Setup NodeJS"
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify the version of Node.js to use
+
+      - name: "Install Dependencies"
+        run: yarn install
+
+      - name: "Build Page"
+        run: yarn build
+
+      - name: "Deploy to GitHub Pages"
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./.vitepress/dist
