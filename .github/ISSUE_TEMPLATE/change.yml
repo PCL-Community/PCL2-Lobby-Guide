@@ -1,6 +1,6 @@
-name: "文档内容问题反馈"
-description: "格式错误或数据有误"
-labels: [✦ Bug,⇵ 等待处理]
+name: "文档内容建议"
+description: "提出改进建议"
+labels: [✦ 建议,⇵ 等待处理]
 body:
   - type: checkboxes
     id: "yml-1"
