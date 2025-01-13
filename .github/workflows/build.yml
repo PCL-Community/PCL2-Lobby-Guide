@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: "22.13.0"
 
+      - name: "Remove Project Readme"
+        run: rm -f ./README.md
+        
       - name: "Install Dependencies"
         run: yarn install
 
