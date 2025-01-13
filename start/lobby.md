@@ -1,6 +1,6 @@
-# 联机大厅创建、销毁与加入
+# 联机大厅接口文档
 
-**此页所有 API 均需要认证**
+**此页除特殊说明外其他 API 均需要认证**
 
 ## 创建新的联机大厅
 
@@ -9,7 +9,7 @@ API 接口地址：
 
 ```http
 
-POST /api/lobby/create
+POST /api/lobbies/create
 
 ```
 客户端应发送的数据为：
@@ -18,24 +18,58 @@ POST /api/lobby/create
 
 {
   "name":"联机大厅名称" // 可选，若不存在或为空，服务端应随机生成名称，允许重复
-  "public":false, // 大厅是否可公开访问，为 false 时只能通过大厅 uuid 加入，默认值为 false
+  "public":false, // 大厅是否可公开访问，为 false 时大厅 uuid 不会出现在查询列表中，默认值为 false
   "username":"创建大厅使用的用户名（将会显示在大厅列表）",
-  "address":"创建者的直接连接地址" // 可选，若值不存在则只能通过中继地址加入
+  "address":"创建者的直接连接地址", // 可选，若值不存在则只能通过中继地址加入
 }
 
 ```
+
+认证通过后服务端应返回 201 响应。
 
 ``` json
 {
   "status":201,
   "name":"联机大厅名称",
-  "id":"大厅的 uuid", //无符号，由服务端随机生成，建议使用 uuidv4/uuidv7
+  "uuid":"大厅的 uuid", //无符号，由服务端随机生成，建议使用 uuidv4/uuidv7
   "access_token":"用于操作联机大厅的访问令牌，此令牌直到大厅关闭前永久有效",
   "server_address":"联机服务器自动分配的中继地址",
 }
 
 ```
 
+## 联机大厅元数据获取
+
+```http
+
+POST /api/lobbies/query
+
+```
+
+客户端需提交的数据为
+
+```json
+
+{
+  "uuid":"大厅 uuid",
+}
+
+```
+
+服务端应返回 200 响应，不存在的大厅返回 404 响应
+
+```json
+
+{
+  "status":200,
+  "name":"联机大厅名称",
+  "player_count":0, // 在线人数
+  "player_list":[], // 在线玩家（完整识别码）
+  "block_list":[], // 大厅被封禁的玩家
+  "public":false // 是否为公开大厅
+}
+
+```
 
 ## 加入联机大厅
 
@@ -43,7 +77,7 @@ API 地址：
 
 ```http
 
-POST /api/lobby/<大厅 uuid>/join
+POST /api/lobbies/<大厅 uuid>/join
 
 ```
 
@@ -51,17 +85,17 @@ POST /api/lobby/<大厅 uuid>/join
 
 ```json
 {
-  "username":"加入者名称", // 若重复则在名称后方加入 # + 短识别码，若仍然重复则在后方加入 - + 从 1 起递增的数字。
-  "shot_identifier":"加入者的短识别码"
+  "username":"加入者名称", // 若重复则服务端在名称后方加入 # + 识别码后 6 位，若仍然重复则在后方加入 - + 从 1 起递增的数字。
+  "identifier":"加入者的完整识别码" // 无符号
 }
 ```
 
-若访问令牌有效，服务端应返回如下响应，若无效返回错误。
+若访问令牌有效，服务端应返回如下响应，若无效返回错误，位于大厅封禁列表的用户返回 403 响应并附带创建者给出的理由
 
 ```json
 
 {
-  "status":200
+  "status":200,
   "access_token":"用于本次联机的访问令牌，同样不会失效",
   "direct_address":"直接联机地址", // 若创建者没有提供或服务端禁止使用此方法则此项为 not_allowed，
   "server_address":"中继地址",
@@ -76,7 +110,7 @@ API 接口
 
 ```
 
-DELETE /api/lobby/<大厅 uuid>
+DELETE /api/lobbies/<大厅 uuid>
 
 ```
 
@@ -104,7 +138,7 @@ API 接口地址：
 
 ```http
 
-POST /api/lobby/<大厅 uuid>/leave
+POST /api/lobbies/<大厅 uuid>/leave
 
 ```
 
@@ -120,13 +154,19 @@ POST /api/lobby/<大厅 uuid>/leave
 
 返回 204 响应。
 
+:::tip
+
+创建者离开将视为关闭联机大厅。
+
+:::
+
 ## 举报联机大厅
 
 API 接口地址：
 
 ```http
 
-POST /api/lobby/<大厅 uuid>/report
+POST /api/lobbies/<大厅 uuid>/report
 
 ```
 
@@ -141,3 +181,117 @@ POST /api/lobby/<大厅 uuid>/report
 服务端应检查请求头中的令牌，若无效返回 401 响应，有效返回 202 响应。
 
 
+## 联机大厅查询
+
+API 接口地址：
+
+```http
+
+GET /api/lobbies/query
+
+```
+
+可使用参数
+
+```
+
+search： 指定搜索文本
+
+perpage：每页将返回的数量
+
+offset：忽略多少个大厅
+
+```
+
+列表中不会出现非公开大厅
+
+响应格式
+
+```json
+
+{
+  "hit":0, // 匹配的大厅数
+  "search_info":[ //详细搜索列表
+    {
+      "name":"联机大厅名称",
+      "uuid":"<大厅 uuid>"
+    }
+  ]
+}
+
+```
+返回 200 响应，无需验证访问令牌
+
+## 联机大厅成员踢出
+
+API 接口地址:
+
+```http
+
+DELETE /api/lobbies/<大厅 uuid>/<identifier>
+
+```
+
+客户端应提交的数据为:
+
+```json
+
+{
+  "access_token":"创建者的访问令牌"
+}
+
+```
+
+服务端无需验证请求头中的访问令牌，但需要验证请求体中的访问令牌。
+
+对应玩家不存在返回 404，令牌非创建者返回 403。
+
+
+## 联机大厅成员封禁
+
+API 接口地址:
+
+```http
+
+PUT /api/lobbies/<大厅 uuid>/<identifier>/lock
+
+```
+
+客户端应提交的数据为:
+
+```json
+
+{
+  "access_token":"创建者的访问令牌",
+  "reason":"封禁理由" // 可选，默认文本为“你已被大厅创建者封禁”，将会显示在被封禁者启动器联机页面上
+}
+
+```
+
+服务端无需验证请求头中的访问令牌，但需要验证请求体中的访问令牌。
+
+对应玩家不存在返回 404，令牌非创建者返回 403。
+
+## 联机大厅成员解封
+
+API 接口地址:
+
+```http
+
+DELETE /api/lobbies/<大厅 uuid>/<identifier>/lock
+
+```
+
+客户端应提交的数据为:
+
+```json
+
+{
+  "access_token":"创建者的访问令牌"
+}
+
+```
+
+服务端无需验证请求头中的访问令牌，但需要验证请求体中的访问令牌。
+
+对应玩家不存在返回 404，令牌非创建者返回 403。
