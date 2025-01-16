@@ -28,4 +28,4 @@
 
 ## 国际化
 
-- 服务端如果实现了国际化，则所有人类可读文本应被翻译为 [Accept-Language](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Language) 指定的语言，若指定的语言不存在，回落语言指定为：`简体中文（zh-CN）` + `英文 （en-US）` 的形式（若只支持其中一种则返回相对应的语言文本）
+- 服务端如果实现了国际化，则所有人类可读文本应被翻译为 [Accept-Language](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Language) 指定的语言，若未指定或指定的语言不存在，回落语言为：`简体中文（zh-CN）` + `英文 （en-US）` （若只支持其中一种则返回相对应的语言文本）

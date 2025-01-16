@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "PCL2 Lobby Guide"
-  text: "PCL2 社区版联机服务端实现规范"
+  text: "PCL2 社区版联机服务端规范"
   tagline: 
   actions:
     - theme: 
