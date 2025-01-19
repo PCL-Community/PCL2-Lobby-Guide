@@ -12,6 +12,7 @@
 - API 请求统一使用 JSON 格式 + UTF-8 编码；
 - 使用正确的 HTTP 状态码标识状态，参考 [Mozilla Developer Network#HTTP状态码](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)；
 - 其他部分使用 TCP 协议；
+- 使用时间戳进行校验的部分统一使用 UTC+0 时区进行计算；
 - 通用错误格式：
 
 ```jsonc
