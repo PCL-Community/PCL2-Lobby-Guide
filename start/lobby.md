@@ -24,7 +24,7 @@ POST /api/lobbies/create
   "name":"联机大厅名称" // 可选，若不存在或为空，服务端应随机生成名称，允许重复
   "public":false, // 大厅是否可公开访问，为 false 时大厅 uuid 不会出现在查询列表中，默认值为 false
   "username":"创建大厅使用的用户名（将会显示在大厅列表）",
-  "address":["创建者直接连接地址"], // 可选，若值不存在则只能通过中继地址加入
+  "address":["创建者直接连接地址"], // IPv4/IPv6 均可，可选，若值不存在则只能通过中继地址加入
 }
 
 ```
@@ -70,7 +70,7 @@ POST /api/lobbies/query
   "status":200,
   "name":"联机大厅名称",
   "player_count":0, // 在线人数
-  "player_list":[], // 在线玩家（完整识别码）
+  "player_list":[], // 在线玩家（UUID）
   "block_list":[], // 大厅被封禁的玩家
   "public":false // 是否为公开大厅
 }
@@ -92,7 +92,7 @@ POST /api/lobbies/<大厅 uuid>/join
 ```json
 {
   "username":"加入者名称", // 若重复则服务端在名称后方加入 # + 识别码后 6 位，若仍然重复则在后方加入 - + 从 1 起递增的数字。
-  "identifier":"加入者的完整识别码" // 无符号
+  "id":"登录时获取的 uuid", // 无符号
 }
 ```
 
@@ -104,7 +104,7 @@ POST /api/lobbies/<大厅 uuid>/join
   "status":200,
   "access_token":"用于本次联机的访问令牌，同样不会失效",
   "direct_address":{
-      "ipv4":"", // 必须提供
+      "ipv4":"", // 若创建者未给出则可选
       "ipv6":""// 可选
       }, // 若创建者没有提供或服务端禁止使用此方法则此项为空，
   "server_address":{
@@ -226,7 +226,8 @@ offset：忽略多少个大厅
   "search_info":[ //详细搜索列表
     {
       "name":"联机大厅名称",
-      "uuid":"<大厅 uuid>"
+      "uuid":"<大厅 uuid>",
+      "player_count":0 // 玩家人数
     }
   ]
 }
@@ -240,7 +241,7 @@ API 接口地址:
 
 ```http
 
-DELETE /api/lobbies/<大厅 uuid>/<identifier>
+DELETE /api/lobbies/<大厅 uuid>/<identifier> // uuid
 
 ```
 

@@ -6,13 +6,13 @@
 
 :::
 
-## 登录
+## 验证
 
 API 接口地址:
 
 ```http
 
-POST /api/auth/login
+POST /api/user/auth
 
 ```
 
@@ -37,6 +37,7 @@ POST /api/auth/login
 {
     "status":201,
     "access_token":"<访问令牌>",
+    "id":"uuidv3 生成的 uuid",
     "expire_in":172800
 }
 
